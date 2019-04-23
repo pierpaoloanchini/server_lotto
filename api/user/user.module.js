@@ -14,7 +14,7 @@ const userSchema = new Schema({
 const gioco = new Gioco ({
   username : String,
   password : String,
-  giocata : Object
+  giocata : String
 },{
   versionKey : false
 })

@@ -1,6 +1,6 @@
 const UserSchema = require('./user.module.js');
-var giocata = [];
-var numeri = [];
+let giocata = [];
+let numeri = [];
 // const NumeriVincenti = require('./user.moduleNum.js');
 const home = (req,res)=>{
   res.sendFile('index.html', {root:'/home/pierpaolo/Desktop/server_lotto'})
@@ -25,23 +25,34 @@ const numeriGiocati = async(req,res,next)=>{
 function confronta(a,b) {
   return a-b
 }
+numeri.sort(confronta);
   await res.send(`giocatore ${req.params.par1} ha effettuato la giocata`)
   next(controllo(req.params.par3,numeri));
   return giocata;
 }
- function controllo(a,b) {
-   // var cont = 0;
-   // for (var i = 0; i < 6; i++) {
-   //   for (var l = 0; l < 6; l++) {
-   //     if (a[l]==b[i]){
-   //       cont = cont++;
-   //     }
-   //   }
-   // }
-   // console.log(cont);
-   console.log(a);
-   console.log(b);
- }
+function controllo(a,b) {
+  var cont= 0;
+  var res = a.split(",")
+  let x;
+  res.map((v,i)=>{
+    var res = parseInt(v)
+      b.map((x,y)=>{
+        return x;
+        console.log(x);
+      })
+      if(x==v) {
+        cont = cont +1;
+        console.log(x);
+        console.log(v);
+      }
+
+  })
+  console.log(cont);
+  console.log(typeof(res));
+  console.log(res);
+  console.log(numeri);
+  numeri = []
+}
 
 //////////////////////mettere controllo se i numeri sono uguali, salvo la giocata in una collections
 //////////////////////estrazione in un'altra collections
