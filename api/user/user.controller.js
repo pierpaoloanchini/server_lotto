@@ -26,32 +26,30 @@ function confronta(a,b) {
   return a-b
 }
 numeri.sort(confronta);
+const nome= req.params.par1;
   await res.send(`giocatore ${req.params.par1} ha effettuato la giocata`)
-  next(controllo(req.params.par3,numeri));
+  next(controllo(req.params.par3,numeri, nome));
   return giocata;
 }
-function controllo(a,b) {
+function controllo(a,b,giocatore) {
   var cont= 0;
   var res = a.split(",")
   let x;
   res.map((v,i)=>{
     var res = parseInt(v)
-      b.map((x,y)=>{
-        return x;
-        console.log(x);
+      for (var i = 0; i < 6; i++) {
+        if (b[i]===res) return cont++;
+        }
       })
-      if(x==v) {
-        cont = cont +1;
-        console.log(x);
-        console.log(v);
-      }
 
-  })
-  console.log(cont);
-  console.log(typeof(res));
-  console.log(res);
-  console.log(numeri);
-  numeri = []
+if(cont==0) {
+  console.log(`${giocatore} ritenta sarai più fortunato`);
+}else{
+  console.log(`il giocatore ${giocatore} ha indovinato ${cont} numeri`);
+}
+console.log(res);
+console.log(numeri);
+numeri = []
 }
 
 //////////////////////mettere controllo se i numeri sono uguali, salvo la giocata in una collections
