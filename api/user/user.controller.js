@@ -1,11 +1,13 @@
 const UserSchema = require('./user.module.js');
 let giocata = [];
 let numeri = [];
-// const NumeriVincenti = require('./user.moduleNum.js');
+
+//GET
 const home = (req,res)=>{
   res.sendFile('index.html', {root:'/home/pierpaolo/Desktop/server_lotto'})
 }
-//giocata/:par1/:par2/:par3
+
+//GET
 const numeriGiocati = async(req,res,next)=>{
   const presave = new UserSchema.NumGiocati({
     username : req.params.par1,
@@ -52,9 +54,7 @@ console.log(numeri);
 numeri = []
 }
 
-//////////////////////mettere controllo se i numeri sono uguali, salvo la giocata in una collections
-//////////////////////estrazione in un'altra collections
-
+//POST
 const sign = async (req,res,next)=>{
   const user = req.body;
   const newUser = await new UserSchema.User(user);
@@ -62,6 +62,7 @@ const sign = async (req,res,next)=>{
   res.send(`salvataggio dell'utente ${user.username} completato`);
 }
 
+//GET
 const estrai = async (req, res, next)=>{
   var numeri = [];
     function getRandomIntInclusive(min, max) {
