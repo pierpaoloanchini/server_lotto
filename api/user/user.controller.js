@@ -13,46 +13,20 @@ const numeriGiocati = async(req,res,next)=>{
     username : req.params.par1,
     password : req.params.par2,
     giocata : req.params.par3
-}).save();
-  function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    const numero = Math.floor(Math.random() * (max - min + 1)) + min; //Il max è incluso e il min è incluso
-    return numero
-  }
+})
+  const result =await presave.save();
   for (var i = 0; i < 6; i++) {
     let numero = getRandomIntInclusive(1,90)
       numeri.push(numero);
   }
-function confronta(a,b) {
-  return a-b
-}
-numeri.sort(confronta);
-const nome= req.params.par1;
-  await res.send(`giocatore ${req.params.par1} ha effettuato la giocata`)
+
+  numeri.sort(confronta);
+  const nome= req.params.par1;
+  res.send(`giocatore ${req.params.par1} ha effettuato la giocata`)
   next(controllo(req.params.par3,numeri, nome));
   return giocata;
 }
-function controllo(a,b,giocatore) {
-  var cont= 0;
-  var res = a.split(",")
-  let x;
-  res.map((v,i)=>{
-    var res = parseInt(v)
-      for (var i = 0; i < 6; i++) {
-        if (b[i]===res) return cont++;
-        }
-      })
 
-if(cont==0) {
-  console.log(`${giocatore} ritenta sarai più fortunato`);
-}else{
-  console.log(`il giocatore ${giocatore} ha indovinato ${cont} numeri`);
-}
-console.log(res);
-console.log(numeri);
-numeri = []
-}
 
 //POST
 const sign = async (req,res,next)=>{
@@ -86,9 +60,39 @@ const estrai = async (req, res, next)=>{
   res.send("estrazione effettuata!");
   return numeri;
 }
+
 module.exports = {
   home,
   numeriGiocati,
   sign,
   estrai
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  const numero = Math.floor(Math.random() * (max - min + 1)) + min; //Il max è incluso e il min è incluso
+  return numero
+}
+function confronta(a,b) {
+  return a-b
+}
+function controllo(a,b,giocatore) {
+  var cont= 0;
+  var res = a.split(",")
+  let x;
+  for (var i = 0; i < 6; i++) {
+    res.map((v,i)=>{
+      var res = parseInt(v)
+      if (b[i]===res) return cont++;
+    })
+  }
+  if(cont==0) {
+    console.log(`${giocatore} ritenta sarai più fortunato`);
+    }else{
+      console.log(`il giocatore ${giocatore} ha indovinato ${cont} numeri`);
+    }
+  console.log(res);
+  console.log(numeri);
+  numeri = []
 }
