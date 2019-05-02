@@ -17,7 +17,7 @@ const numeriGiocati = async(req,res,next)=>{
   const result =await presave.save();
   for (var i = 0; i < 6; i++) {
     let numero = getRandomIntInclusive(1,90)
-      numeri.push(numero);
+    numeri.push(numero);
   }
 
   numeri.sort(confronta);
@@ -78,21 +78,27 @@ function confronta(a,b) {
   return a-b
 }
 function controllo(a,b,giocatore) {
-  var cont= 0;
+  var cont = 0;
   var res = a.split(",")
   let x;
   for (var i = 0; i < 6; i++) {
-    res.map((v,i)=>{
-      var res = parseInt(v)
-      if (b[i]===res) return cont++;
+    res.map((v)=>{
+      x = parseInt(v);
+      let y = b[i];
+      if (y==x) {
+        cont ++;
+        console.log(cont);
+        return
+      }
     })
   }
+  console.log(cont);
   if(cont==0) {
     console.log(`${giocatore} ritenta sarai più fortunato`);
     }else{
       console.log(`il giocatore ${giocatore} ha indovinato ${cont} numeri`);
     }
   console.log(res);
-  console.log(numeri);
+  console.log(b);
   numeri = []
 }
