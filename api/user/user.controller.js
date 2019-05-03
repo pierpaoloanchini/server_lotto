@@ -1,7 +1,6 @@
 const UserSchema = require('./user.module.js');
 let giocata = [];
 let numeri = [];
-
 //GET
 const home = (req,res)=>{
   res.sendFile('index.html', {root:'/home/pierpaolo/Desktop/server_lotto'})
@@ -19,11 +18,11 @@ const numeriGiocati = async(req,res,next)=>{
     let numero = getRandomIntInclusive(1,90)
     numeri.push(numero);
   }
-
   numeri.sort(confronta);
   const nome= req.params.par1;
   res.send(`giocatore ${req.params.par1} ha effettuato la giocata`)
-  next(controllo(req.params.par3,numeri, nome));
+  controllo(req.params.par3,numeri, nome);
+//  estrGenerale (req.params.par3, nome);
   return giocata;
 }
 
@@ -45,13 +44,7 @@ const estrai = async (req, res, next)=>{
       const numero = Math.floor(Math.random() * (max - min + 1)) + min; //Il max è incluso e il min è incluso
       return numero
     }
-    for (var i = 0; i < 6; i++) {
-      let numero = getRandomIntInclusive(1,90)
-        numeri.push(numero);
-    }
-  function confronta(a,b) {
-    return a-b
-  }
+
   numeri.sort(confronta)
   console.log("I numeri estratti sono: " + numeri);
   const presave = await new UserSchema.NumeriVincenti({
@@ -92,13 +85,44 @@ function controllo(a,b,giocatore) {
       }
     })
   }
-  console.log(cont);
+  console.log(res);
+  console.log(b);
   if(cont==0) {
     console.log(`${giocatore} ritenta sarai più fortunato`);
     }else{
       console.log(`il giocatore ${giocatore} ha indovinato ${cont} numeri`);
     }
-  console.log(res);
-  console.log(b);
+  UserSchema.NumeriVincenti.findOne({"_id" : "5ccc1883b592722eb50cfb25"},(err,result)=>{
+    BigGame = result.numeri
+    var contatore = 0;
+    var res = a.split(",")
+    console.log(" ");
+    console.log(`questa è la estrazione giornaliera ${BigGame}`);
+    let x;
+    for (var i = 0; i < 6; i++) {
+      res.map((v)=>{
+        x = parseInt(v);
+        let y = BigGame[i];
+        if (y==x) {
+          contatore ++;
+          return
+        }
+      })
+    }
+    console.log(`nell'estrazione giornaliera hai indovinato ${contatore} numeri`);
+  })
   numeri = []
+}
+
+// function estrGenerale (giocata, nome){
+//
+//   console.log(`il giocatore ${nome} nell'estrazione generale ha indovinato ${cont} numeri`);
+// };
+function rangeTime() {
+  var d = new Date()
+  var n = d.getTime();
+  var giorno = d.getHours();
+  const hour = 3600000
+  var diff = n - (giorno*hour)
+  return diff
 }
