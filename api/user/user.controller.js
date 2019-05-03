@@ -22,10 +22,8 @@ const numeriGiocati = async(req,res,next)=>{
   const nome= req.params.par1;
   res.send(`giocatore ${req.params.par1} ha effettuato la giocata`)
   controllo(req.params.par3,numeri, nome);
-//  estrGenerale (req.params.par3, nome);
   return giocata;
 }
-
 
 //POST
 const sign = async (req,res,next)=>{
@@ -44,7 +42,6 @@ const estrai = async (req, res, next)=>{
       const numero = Math.floor(Math.random() * (max - min + 1)) + min; //Il max è incluso e il min è incluso
       return numero
     }
-
   numeri.sort(confronta)
   console.log("I numeri estratti sono: " + numeri);
   const presave = await new UserSchema.NumeriVincenti({
@@ -80,13 +77,12 @@ function controllo(a,b,giocatore) {
       let y = b[i];
       if (y==x) {
         cont ++;
-        console.log(cont);
         return
       }
     })
   }
-  console.log(res);
-  console.log(b);
+  console.log(`numeri giocati: ${res}`);
+  console.log(`estrazione istantanea: ${b}`);
   if(cont==0) {
     console.log(`${giocatore} ritenta sarai più fortunato`);
     }else{
@@ -96,8 +92,6 @@ function controllo(a,b,giocatore) {
     BigGame = result.numeri
     var contatore = 0;
     var res = a.split(",")
-    console.log(" ");
-    console.log(`questa è la estrazione giornaliera ${BigGame}`);
     let x;
     for (var i = 0; i < 6; i++) {
       res.map((v)=>{
@@ -109,15 +103,14 @@ function controllo(a,b,giocatore) {
         }
       })
     }
+    console.log(" ");
+    console.log(`questa è la estrazione giornaliera ${BigGame}`);
     console.log(`nell'estrazione giornaliera hai indovinato ${contatore} numeri`);
+    console.log(" ");
+    console.log(" ");
   })
   numeri = []
 }
-
-// function estrGenerale (giocata, nome){
-//
-//   console.log(`il giocatore ${nome} nell'estrazione generale ha indovinato ${cont} numeri`);
-// };
 function rangeTime() {
   var d = new Date()
   var n = d.getTime();
