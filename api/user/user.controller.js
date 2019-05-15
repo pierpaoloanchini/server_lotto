@@ -15,8 +15,13 @@ const numeriGiocati = async(req,res,next)=>{
 })
   const result =await presave.save();
   for (var i = 0; i < 6; i++) {
-    let numero = getRandomIntInclusive(1,90)
-    numeri.push(numero);
+    numero = getRandomIntInclusive(1,90);
+    numeri[i] = numero
+    numeri.map((v)=>{
+      if (numeri[i-1] == numero) {
+        i--
+      }
+    })
   }
   numeri.sort(confronta);
   const nome= req.params.par1;
@@ -36,15 +41,19 @@ const sign = async (req,res,next)=>{
 //GET
 const estrai = async (req, res, next)=>{
   var numeri = [];
-    function getRandomIntInclusive(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      const numero = Math.floor(Math.random() * (max - min + 1)) + min; //Il max è incluso e il min è incluso
-      return numero
-    }
+  for (var i = 0; i < 6; i++) {
+    numero = getRandomIntInclusive(1,90);
+    numeri[i] = numero
+    numeri.map((v)=>{
+      if (numeri[i-1] == numero) {
+        i--
+      }
+    })
+  }
+  if (numeri[4]==numeri[5]) numeri[5] = getRandomIntInclusive(1,90)
   numeri.sort(confronta)
   console.log("I numeri estratti sono: " + numeri);
-  const presave = await new UserSchema.NumeriVincenti({
+  const presave =  new UserSchema.NumeriVincenti({
     numeri : numeri,
     time : Math.floor(Date.now() / 1000)}).save();
   res.send("estrazione effettuata!");
@@ -88,7 +97,7 @@ function controllo(a,b,giocatore) {
     }else{
       console.log(`il giocatore ${giocatore} ha indovinato ${cont} numeri`);
     }
-  UserSchema.NumeriVincenti.findOne({"_id" : "5ccc1883b592722eb50cfb25"},(err,result)=>{
+  UserSchema.NumeriVincenti.findOne({"_id" : "5cdc3d99127cc137f1734aac"},(err,result)=>{
     BigGame = result.numeri
     var contatore = 0;
     var res = a.split(",")
